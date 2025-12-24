@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم موزاييك - قائمة الطعام</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts - Tajawal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-image: url("images/خلفيه.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        .tab-active {
+            background: #0e0d0d;
+            color: rgba(216, 134, 34, 0.537);
+        }
+
+        .item-card {
+            transition: all 0.3s ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            margin: 20px;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #cdd0d5;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+    </style>
+</head>
+
+<!-- Header -->
+<header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+            <h1 class="text-3xl font-bold text-blue-500">مطعم موزاييك</h1>
+            <p class="text-gray-600 hidden md:block">أشهى المأكولات والمشروبات</p>
+        </div>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class=" " style="background-image: url(images/شعار.jpg.jpeg);
+            background-size:100% auto;
+            background-position: center;
+            background-repeat: no-repeat;">
+    <div class="container max- px-3 text-2xl">
+        <div class=""></div>
+        <div class="logo-box">
+            <img src="images/شعار.jpg.jpeg" alt="logo" class="w-full h-65 object-cover rounded-t-xl">
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<main class="container mx-auto px-8 py-12">
+
+    <!-- Search Bar -->
+    <div class="mb-8">
+        <input type="text" id="searchInput" placeholder="ابحث عن صنف..."
+            class="search-input w-full px-6 py-4 rounded-full border-2 border-gray-200 text-lg transition-all" />
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="mb-8 overflow-x-auto">
+        <div class="flex gap-3 min-w-max pb-2">
+            <button class="tab-button tab-active px-6 py-3 rounded-full font-bold whitespace-nowrap transition-all"
+                data-category="all">
+                الكل
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-0 whitespace-nowrap transition-all"
+                data-category="fatur-dessert">
+                الفطور
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="shoraba-dessert">
+                الشوربات
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="cold-appetizers">
+                المقبلات الباردة
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="dessert">
+                المقبلات الساخنة
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="salata-food">
+                السلطات
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-30 whitespace-nowrap transition-all"
+                data-category="pizza-appetizers">
+                البيتزا
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="western-food">
+                الأكلات الغربية
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="mashui-dessert">
+                المشاوي
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="sweet-dessert">
+                الكريب و الوافل
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="icekreem-dessert">
+                ايس كريم
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="cocktail-dessert">
+                الكوكتيليات
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="frozen-dessert">
+                فروزن
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="milkshake-dessert">
+                الميلك شيك
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="frapih-dessert">
+                الفرابيه
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="cold-drink">
+                العصائر الطبيعيه
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="soft-drink-dessert">
+                المشروبات الغازيه
+            </button>
+            <button
+                class="tab-button px-6 py-3 rounded-full font-bold bg-white hover:bg-blue-50 whitespace-nowrap transition-all"
+                data-category="hot-drinks">
+                المشروبات الساخنه
+            </button>
+        </div>
+    </div>
+
+    <!-- Menu Grid -->
+    <div id="menuGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+        <!-- Items will be inserted here by JavaScript -->
+    </div>
+
+    <!-- No Results Message -->
+    <div id="noResults" class="hidden text-center py-12">
+        <p class="text-2xl text-gray-500">لم يتم العثور على نتائج</p>
+    </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-white mt-auto py-8 shadow-inner">
+    <div class="container mx-auto px-4 text-center">
+        <p class="text-gray-600 text-lg">© 2025 مطعم موزاييك - جميع الحقوق محفوظة</p>
+        <p class="text-gray-500 mt-2">نقدم لكم أشهى المأكولات والمشروبات</p>
+    </div>
+</footer>
+
+<!-- Modal -->
+<div id="itemModal" class="modal">
+    <div class="modal-content">
+        <div class="relative">
+            <button onclick="closeModal()"
+                class="absolute top-4 left-4 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-100 transition-all z-10">
+                <span class="text-2xl">×</span>
+            </button>
+            <img id="modalImage" src="" alt="" class="w-full h-100 object-cover rounded-t-xl">
+        </div>
+        <div class="p-7">
+            <div class="flex items-start justify-between mb-4">
+                <div class="flex-1">
+                    <h3 id="modalName" class="text-2xl font-bold text-gray-800 mb-2"></h3>
+                    <span id="modalCategory"
+                        class="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-bold"></span>
+                </div>
+                <div class="text-left mr-4">
+                    <p id="modalPrice" class="text-3xl font-bold text-blue-500"></p>
+                </div>
+            </div>
+            <p id="modalDescription" class="text-gray-600 text-lg leading-relaxed"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Menu Data
+    const menuData = [
+        // الفطور
+        {
+            id: 'fatur-1',
+            name: 'صحن بيض اومليت',
+            description: '',
+            price: '50000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-2',
+            name: 'صحن فته حمص بالزيت',
+            description: '',
+            price: '60000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-3',
+            name: 'صحن فول بالزيت',
+            description: '',
+            price: '70000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-4',
+            name: 'صحن فول بلبن',
+            description: '',
+            price: '55000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-5',
+            name: 'صحن لبنه',
+            description: '',
+            price: '65000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-6',
+            name: 'صحن لبنه مدعبله',
+            description: '',
+            price: '40000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-7',
+            name: 'صحن مربى مشمش',
+            description: '',
+            price: '30000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-8',
+            name: 'صحن مكدوس',
+            description: '',
+            price: '60000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-9',
+            name: 'صحن شنكليش',
+            description: '',
+            price: '30000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-10',
+            name: 'بيض اومليت معجبنه',
+            description: '',
+            price: '25000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-11',
+            name: 'بيض اومليت مع خضار',
+            description: '',
+            price: '30000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-12',
+            name: 'بيض عيون',
+            description: '',
+            price: '35000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-13',
+            name: 'صحن جبنه بلديه',
+            description: '',
+            price: '20000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-14',
+            name: 'صحن جبنه شلل',
+            description: '',
+            price: '40000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-15',
+            name: 'صحن حلاوه طحينيه',
+            description: '',
+            price: '50000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        {
+            id: 'fatur-16',
+            name: 'صحن فتى بالسمنه',
+            description: '',
+            price: '50000 ل.س',
+            category: 'fatur-dessert',
+            categoryName: 'الفطور',
+            image: ''
+        },
+        //الشوربات
+        {
+            id: 'shorba-1',
+            name: 'شوربة عدس',
+            description: 'شوربة عدس غنية مع الخضروات والتوابل الشرقية',
+            price: '25000 ل.س',
+            category: 'shoraba-dessert',
+            categoryName: 'الشوربات',
+            image: ''
+        },
+        {
+            id: 'shorba-2',
+            name: 'شوربة دجاج بلفطر',
+            description: 'شوربة دجاج كريمية مع قطع الدجاج والخضروات ال',
+            price: '30000 ل.س',
+            category: 'shoraba-dessert',
+            categoryName: 'الشوربات',
+            image: ''
+        },
+        {
+            id: 'shorba-3',
+            name: 'شوربة دجاج',
+            description: 'شوربة خضار صحية مع تشكيلة من الخضروات الموسمية',
+            price: '22000 ل.س',
+            category: 'shoraba-dessert',
+            categoryName: 'الشوربات',
+            image: ''
+        },
+        //المقبلات البارده
+        {
+            id: 'salata-1',
+            name: 'حمص',
+            description: '',
+            price: '40000 ل.س',
+            category: 'cold-appetizers',
+            categoryName: 'السلطات',
+            image: ''
+        },
+        {
+            id: 'salata-2',
+            name: 'متبل',
+            description: '',
+            price: '35000 ل.س',
+            category: 'cold-appetizers',
+            categoryName: 'السلطات',
+            image: ''
+        },
+        {
+            id: 'salata-3',
+            name: 'بابا غنوج',
+            description: '',
+            price: '30000 ل.س',
+            category: 'cold-appetizers',
+            categoryName: 'السلطات',
+            image: ''
+        },
+        {
+            id: 'salata-4',
+            name: 'يالنجي',
+            description: '',
+            price: '25000 ل.س',
+            category: 'cold-appetizers',
+            categoryName: 'السلطات',
+            image: ''
+        },
+        {
+            id: 'salata-5',
+            name: 'محمره',
+            description: '',
+            price: '25000 ل.س',
+            category: 'cold-appetizers',
+            categoryName: 'السلطات',
+            image: ''
+        },
+        //المقبلات الساخنه
+        {
+            id: 'disert',
+            name: 'بطاطا مقليه',
+            description: '',
+            price: '25000 ل.س',
+            category: 'dessert',
+            categoryName: 'المقبلات الساخنه',
+            image: ''
+        }
+        ,
+        {
+            id: 'disert-2',
+            name: 'برك بالجبنه',
+            description: '',
+            price: '40000 ل.س',
+            category: 'dessert',
+            categoryName: 'المقبلات الساخنه',
+            image: ''
+        },
+        {
+            id: 'disert-3',
+            name: 'كبه مقليه',
+            description: '',
+            price: '60000 ل.س',
+            category: 'dessert',
+            categoryName: 'المقبلات الساخنه',
+            image: ''
+        },
+        {
+            id: 'disert-4',
+            name: 'حمص باللحمه',
+            description: '',
+            price: '50000 ل.س',
+            category: 'dessert',
+            categoryName: 'المقبلات الساخنه',
+            image: ''
+        },
+        {
+            id: 'disert-5',
+            name: 'مفركه فطر باللحمه',
+            description: '',
+            price: '30000 ل.س',
+            category: 'dessert',
+            categoryName: 'المقبلات الساخنه',
+            image: ''
+        },
+        {
+            id: 'disert-6',
+            name: 'نقانق مع خضار',
+            description: '',
+            price: '30000 ل.س',
+            category: 'dessert',
+            categoryName: 'المقبلات الساخنه',
+            image: ''
+        },
+        {
+            id: 'disert-6',
+            name: 'سوده دجاج',
+            description: '',
+            price: '30000 ل.س',
+            category: 'dessert',
+            categoryName: 'المقبلات الساخنه',
+            image: ''
+        },
+        {
+            id: 'disert-6',
+            name: 'جوانح مشويه',
+            description: '',
+            price: '30000 ل.س',
+            category: 'dessert',
+            categoryName: 'المقبلات الساخنه',
+            image: ''
+        },
+        {
+            id: 'disert-6',
+            name: 'سجق رول',
+            description: '',
+            price: '30000 ل.س',
+            category: 'dessert',
+            categoryName: 'المقبلات الساخنه',
+            image: ''
+        }
+        , {
+            id: 'disert-6',
+            name: 'اصابع جبنه موزاريله مقليه بانيه',
+            description: '',
+            price: '30000 ل.س',
+            category: 'dessert',
+            categoryName: 'المقبلات الساخنه',
+            image: ''
+        },
+        {
+            id: 'disert-6',
+            name: 'بطاطا حره',
+            description: '',
+            price: '30000 ل.س',
+            category: 'dessert',
+            categoryName: 'المقبلات الساخنه',
+            image: ''
+        }
+        // السلطات
+        , {
+            id: 'salata-1',
+            name: 'فتوش',
+            description: '',
+            price: '30000 ل.س',
+            category: 'salata-food',
+            categoryName: 'السلطات',
+            image: ''
+        },
+        {
+            id: 'salata-2',
+            name: 'تبوله',
+            description: '',
+            price: '50000 ل.س',
+            category: 'salata-food',
+            categoryName: 'السلطات',
+            image: ''
+        },
+        {
+            id: 'salata-3',
+            name: 'سلطه يونانيه',
+            description: '',
+            price: '40000 ل.س',
+            category: 'salata-food',
+            categoryName: 'السلطات',
+            image: ''
+        },
+        {
+            id: 'salata-4',
+            name: 'سلطه سيزر ',
+            description: '',
+            price: '60000 ل.س',
+            category: 'salata-food',
+            categoryName: 'السلطات',
+            image: ''
+        },
+        {
+            id: 'salata-5',
+            name: 'سلطه جرجير',
+            description: '',
+            price: '25000 ل.س',
+            category: 'salata-food',
+            categoryName: 'السلطات',
+            image: 'images/جرجير.jpg'
+        },
+        //بيتزا
+        {
+            id: 'pizza-1',
+            name: 'بيتزا مارجريتا',
+            description: '',
+            price: '40000 ل.س',
+            category: 'pizza-appetizers',
+            categoryName: 'البيتزا',
+            image: ''
+        },
+        {
+            id: 'pizza-2',
+            name: 'بيتزا خضار ',
+            description: '',
+            price: '50000 ل.س',
+            category: 'pizza-appetizers',
+            categoryName: 'البيتزا',
+            image: ''
+        },
+        {
+            id: 'pizza-3',
+            name: 'بيتزا هاواي',
+            description: '',
+            price: '60000 ل.س',
+            category: 'pizza-appetizers',
+            categoryName: 'البيتزا',
+            image: ''
+        },
+        //
+
+        // العصائر الطبيعيه
+        {
+            id: 'cold-1',
+            name: 'عصير برتقال بالنعنع',
+            description: '',
+            price: '25000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: ''
+        }
+        , {
+            id: 'cold-2',
+            name: 'عصير برتقال',
+            description: '',
+            price: '20000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: ''
+        },
+        {
+            id: 'cold-3',
+            name: 'عصير اناناس',
+            description: '',
+            price: '20000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: 'images/anans.jpg.jpeg'
+        },
+        {
+            id: 'cold-4',
+            name: 'عصير ليمون',
+            description: '،',
+            price: '35000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: ''
+        },
+        {
+            id: 'cold-5',
+            name: 'عصير منغا',
+            description: '',
+            price: '30000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: 'images/mango.jpg.jpeg'
+        },
+        {
+            id: 'cold-6',
+            name: 'عصير افوكادو',
+            description: 'افوكادو وقشطه وكريمه وقشطه',
+            price: '30000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: 'images/avokado.jpg.jpeg'
+        },
+        {
+            id: 'cold-7',
+            name: 'عصير فريز',
+            description: '',
+            price: '30000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: 'images/فريز.jpg.jpeg'
+        },
+        {
+            id: 'cold-8',
+            name: 'كيوي',
+            description: '',
+            price: '30000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: ''
+        },
+        {
+            id: 'cold-9',
+            name: 'عصير تفاح',
+            description: '',
+            price: '30000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: ''
+        },
+        {
+            id: 'cold-10',
+            name: 'بطيخ',
+            description: '',
+            price: '30000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: ''
+        },
+        {
+            id: 'cold-11',
+            name: 'غريفون',
+            description: '',
+            price: '30000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: ''
+        },
+        {
+            id: 'cold-12',
+            name: 'توت',
+            description: '',
+            price: '30000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: 'i'
+        },
+        {
+            id: 'cold-13',
+            name: 'دراق',
+            description: '',
+            price: '30000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: ''
+        },
+        {
+            id: 'cold-14',
+            name: 'رمان',
+            description: '',
+            price: '30000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: ''
+        },
+        {
+            id: 'cold-15',
+            name: 'شمام',
+            description: '',
+            price: '30000 ل.س',
+            category: 'cold-drink',
+            categoryName: 'العصائر الطبيعية',
+            image: ''
+        },
+
+        // المشروبات الساخنة
+        {
+            id: 'hot-1',
+            name: 'قهوة تركيه',
+            description: 'قهوة تركيه مع الهيل او بدون',
+            price: '10000 ل.س',
+            category: 'hot-drink',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-2',
+            name: 'كابتشينو ',
+            description: 'إسبريسو مزدوج مع حليب مبخر',
+            price: '25000 ل.س',
+            category: 'hot-drink',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-3',
+            name: 'هوت شوكليت',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: 'images/hotchoklet.jpg.jpeg'
+        },
+        {
+            id: 'hot-4',
+            name: 'هوت لوتوس',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-5',
+            name: 'شاي أخضر',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-6',
+            name: 'كمون ليمون',
+            description: '',
+            price: '25000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-7',
+            name: 'زهورات',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-8',
+            name: 'بابونج',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-9',
+            name: 'زنجبيل وعسل',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-10',
+            name: 'نعنع',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-11',
+            name: 'كابتشينو نكهات',
+            description: '',
+            price: '10000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-12',
+            name: 'كافي لاتيه كلاسيك',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-13',
+            name: 'كافي موكا كلاسيك',
+            description: '',
+            price: '20000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-14',
+            name: 'كراميل ماكياتو',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-15',
+            name: 'موكا نكهات',
+            description: '',
+            price: '20000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-16',
+            name: ' موكا لاتيه',
+            description: '',
+            price: '25000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-17',
+            name: 'نسكافيه حليب',
+            description: '',
+            price: '30000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-18',
+            name: 'بريق شاي خمير',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-19',
+            name: 'اسبانيش لاتيه',
+            description: '',
+            price: '20000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-20',
+            name: 'اسبريسو افوكادو',
+            description: '',
+            price: '25000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-21',
+            name: 'اسبريسو امريكانو',
+            description: '',
+            price: '20000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-22',
+            name: 'اسبريسو تريستينو',
+            description: '',
+            price: '20000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-23',
+            name: 'اسبريسو دوبيو',
+            description: '',
+            price: '20000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-24',
+            name: 'اسبريسو ريستريتو',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-25',
+            name: 'اسبريسو سنغل',
+            description: '',
+            price: '20000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-26',
+            name: 'اسبريسو لونغو',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-27',
+            name: 'اسبريسو مكياتو',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-28',
+            name: 'اسبريسو نسله',
+            description: '',
+            price: '15000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-29',
+            name: 'بابونج',
+            description: '',
+            price: '25000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-30',
+            name: 'زنجبيل بالعسل',
+            description: '',
+            price: '20000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-31',
+            name: 'زهورات',
+            description: '',
+            price: '20000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+        {
+            id: 'hot-32',
+            name: 'شاي أخضر بالقرنفل والهيل',
+            description: '',
+            price: '25000 ل.س',
+            category: 'hot-drinks',
+            categoryName: 'المشروبات الساخنة',
+            image: ''
+        },
+
+
+        // الأكلات الغربية
+        {
+            id: 'western-1',
+            name: 'كريسبي',
+            description: '',
+            price: '60000 ل.س',
+            category: 'western-food',
+            categoryName: 'الأكلات الغربية',
+            image: ''
+        },
+        {
+            id: 'western-2',
+            name: 'سبايسي',
+            description: '',
+            price: '60000 ل.س',
+            category: 'western-food',
+            categoryName: 'الأكلات الغربية',
+            image: ''
+        },
+        {
+            id: 'western-3',
+            name: 'اسكالوب',
+            description: '',
+            price: '60000 ل.س',
+            category: 'western-food',
+            categoryName: 'الأكلات الغربية',
+            image: ''
+        },
+        {
+            id: 'western-4',
+            name: 'ناغيت',
+            description: '',
+            price: '60000 ل.س',
+            category: 'western-food',
+            categoryName: 'الأكلات الغربية',
+            image: ''
+        },
+        {
+            id: 'western-5',
+            name: 'برجر لحم',
+            description: '',
+            price: '60000 ل.س',
+            category: 'western-food',
+            categoryName: 'الأكلات الغربية',
+            image: ''
+        },
+        {
+            id: 'western-6',
+            name: 'برجر دجاج',
+            description: '',
+            price: '60000 ل.س',
+            category: 'western-food',
+            categoryName: 'الأكلات الغربية',
+            image: ''
+        },
+        {
+            id: 'western-7',
+            name: 'برجر لحم',
+            description: '',
+            price: '60000 ل.س',
+            category: 'western-food',
+            categoryName: 'الأكلات الغربية',
+            image: ''
+        },
+        {
+            id: 'western-8',
+            name: 'شرحات دجاج مطفايه',
+            description: 'شرحات دجاج مقليه ومطفايه  بحمض وثوم وفطر',
+            price: '35000 ل.س',
+            category: 'western-food',
+            categoryName: 'الأكلات الغربية',
+            image: ''
+        },
+        {
+            id: 'western-9',
+            name: 'شرحات دجاج بالبشاميل',
+            description: '',
+            price: '60000 ل.س',
+            category: 'western-food',
+            categoryName: 'الأكلات الغربية',
+            image: ''
+        },
+        {
+            id: 'western-10',
+            name: 'ستيك بوافر',
+            description: 'شرحه لحم بوافر مع صوص ديمي غلاس',
+            price: '60000 ل.س',
+            category: 'western-food',
+            categoryName: 'الأكلات الغربية',
+            image: ''
+        },
+        {
+            id: 'western-11',
+            name: 'كوردون بلو',
+            description: 'صدر دجاج محشو فطر ,جبنه موزاريلا,',
+            price: '85000 ل.س',
+            category: 'western-food',
+            categoryName: 'الأكلات الغربية',
+            image: ''
+        },
+        {
+            id: 'western-12',
+            name: 'كوردون موزاييك',
+            description: '',
+            price: '60000 ل.س',
+            category: 'western-food',
+            categoryName: 'الأكلات الغربية',
+            image: ''
+        },
+        // المشاوي
+        {
+            id: 'mashwi-1',
+            name: 'شيش طاووق',
+            description: '',
+            price: '70000 ل.س',
+            category: 'mashui-dessert',
+            categoryName: 'المشاوي',
+            image: ''
+        },
+        {
+            id: 'mashwi-2',
+            name: 'كباب حلبي',
+            description: '',
+            price: '80000 ل.س',
+            category: 'mashui-dessert',
+            categoryName: 'المشاوي',
+            image: ''
+        },
+        {
+            id: 'mashwi-3',
+            name: 'شقف مشويه',
+            description: '',
+            price: '70000 ل.س',
+            category: 'mashui-dessert',
+            categoryName: 'المشاوي',
+            image: ''
+        },
+        {
+            id: 'mashwi-4',
+            name: 'مشاوي مشكله',
+            description: 'سيخ شيش طاووق + سيخ كباب حلبي + سيخ شقف مشويه',
+            price: '80000 ل.س',
+            category: 'mashui-dessert',
+            categoryName: 'المشاوي',
+            image: ''
+        },
+        {
+            id: 'mashwi-5',
+            name: 'طوشكا',
+            description: '',
+            price: '70000 ل.س',
+            category: 'mashui-dessert',
+            categoryName: 'المشاوي',
+            image: ''
+        },
+        {
+            id: 'mashwi-6',
+            name: 'معجوقه',
+            description: '',
+            price: '70000 ل.س',
+            category: 'mashui-dessert',
+            categoryName: 'المشاوي',
+            image: ''
+        },
+        {
+            id: 'mashwi-7',
+            name: 'جوانح مشويه ع الفحم',
+            description: '',
+            price: '80000 ل.س',
+            category: 'mashui-dessert',
+            categoryName: 'المشاوي',
+            image: ''
+        },
+        {
+            id: 'mashwi-8',
+            name: 'ريش غنم',
+            description: '',
+            price: '120000 ل.س',
+            category: 'mashui-dessert',
+            categoryName: 'المشاوي',
+            image: ''
+        },
+        {
+            id: 'mashwi-9',
+            name: 'دجاج مشوي ع الفحم',
+            description: '',
+            price: '90000 ل.س',
+            category: 'mashui-dessert',
+            categoryName: 'المشاوي',
+            image: ''
+        },
+        {
+            id: 'mashwi-10',
+            name: 'نصف دجاج مشوي ع الفحم',
+            description: '',
+            price: '90000 ل.س',
+            category: 'mashui-dessert',
+            categoryName: 'المشاوي',
+            image: ''
+        },
+
+        // الأكلات الشرقية
+        {
+            id: 'eastern-1',
+            name: 'كبسه',
+            description: 'أرز مع لحم موزات والبهارات الشرقية ',
+            price: '55000 ل.س',
+            category: 'eastern-food',
+            categoryName: 'الأكلات الشرقية',
+            image: 'images/كبسه.jpeg'
+        },
+        {
+            id: 'eastern-2',
+            name: 'مندي',
+            description: 'شيش مشوي على الفحم مع أرز مندي بالبهارات',
+            price: '40000 ل.س',
+            category: 'eastern-food',
+            categoryName: 'الأكلات الشرقية',
+            image: ''
+        },
+        {
+            id: 'eastern-3',
+            name: 'كبه لبنيه',
+            description: '',
+            price: '50000 ل.س',
+            category: 'eastern-food',
+            categoryName: 'الأكلات الشرقية',
+            image: 'images/كبه.لبنيه.jpg'
+        },
+        {
+            id: 'eastern-4',
+            name: 'لحمه بصينيه',
+            description: '',
+            price: '50000 ل.س',
+            category: 'eastern-food',
+            categoryName: 'الأكلات الشرقية',
+            image: 'images/لحمه.بصينيه.jpg'
+        },
+        {
+            id: 'eastern-5',
+            name: 'صينيه راس العصفور',
+            description: '',
+            price: '50000 ل.س',
+            category: 'eastern-food',
+            categoryName: 'الأكلات الشرقية',
+            image: 'images/راس.العصفور.jpg'
+        }
+        //كريب و الوافل 
+        , {
+            id: 'dessert-1',
+            name: 'وافل شوكولا',
+            description: '',
+            price: '30000 ل.س',
+            category: 'sweet-dessert',
+            categoryName: 'حلويات',
+            image: 'images/waphel.jpg.jpeg'
+        },
+        {
+            id: 'dessert-2',
+            name: 'كريب شوكولا',
+            description: '',
+            price: '30000 ل.س',
+            category: 'sweet-dessert',
+            categoryName: 'حلويات',
+            image: 'images/كريب.شوكولا.jpg.jpeg'
+        }
+        , {
+            id: 'dessert-3',
+            name: 'كريب فوتوتشيني',
+            description: '',
+            price: '30000 ل.س',
+            category: 'sweet-dessert',
+            categoryName: 'حلويات',
+            image: 'images/كريب.فوتوتشيني.jpg'
+        },
+        {
+            id: 'dessert-4',
+            name: 'مكس كريب',
+            description: '',
+            price: '30000 ل.س',
+            category: 'sweet-dessert',
+            categoryName: 'حلويات',
+            image: 'images/مكس.كريب.jpg.jpeg'
+        }
+
+
+    ];
+
+    let currentCategory = 'all';
+    let currentSearch = '';
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function () {
+        renderMenu();
+        setupEventListeners();
+    });
+
+    // Setup Event Listeners
+    function setupEventListeners() {
+        // Tab buttons
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function () {
+                currentCategory = this.dataset.category;
+
+                // Update active tab
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('tab-active');
+                    btn.classList.add('bg-white', 'hover:bg-blue-50');
+                });
+                this.classList.add('tab-active');
+                this.classList.remove('bg-white', 'hover:bg-blue-50');
+
+                renderMenu();
+            });
+        });
+
+        // Search input
+        document.getElementById('searchInput').addEventListener('input', function (e) {
+            currentSearch = e.target.value.toLowerCase();
+            renderMenu();
+        });
+
+        // Close modal on outside click
+        document.getElementById('itemModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    }
+
+    // Render Menu
+    function renderMenu() {
+        const menuGrid = document.getElementById('menuGrid');
+        const noResults = document.getElementById('noResults');
+
+        let filteredItems = menuData;
+
+        // Filter by category
+        if (currentCategory !== 'all') {
+            filteredItems = filteredItems.filter(item => item.category === currentCategory);
+        }
+
+        // Filter by search
+        if (currentSearch) {
+            filteredItems = filteredItems.filter(item =>
+                item.name.toLowerCase().includes(currentSearch) ||
+                item.description.toLowerCase().includes(currentSearch) ||
+                item.categoryName.toLowerCase().includes(currentSearch)
+            );
+        }
+
+        // Show/hide no results
+        if (filteredItems.length === 0) {
+            menuGrid.classList.add('hidden');
+            noResults.classList.remove('hidden');
+            return;
+        } else {
+            menuGrid.classList.remove('hidden');
+            noResults.classList.add('hidden');
+        }
+
+        // Render items
+        menuGrid.innerHTML = filteredItems.map(item => `
+                <div class="item-card bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer" onclick="openModal('${item.id}')">
+                    <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3 class="text-xl font-bold text-gray-800 flex-1">${item.name}</h3>
+                            <span class="text-xl font-bold text-blue-500 mr-2">${item.price}</span>
+                        </div>
+                        <p class="text-gray-600 mb-3 line-clamp-2">${item.description}</p>
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-bold">
+                            ${item.categoryName}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+    }
+
+    // Open Modal
+    function openModal(itemId) {
+        const item = menuData.find(i => i.id === itemId);
+        if (!item) return;
+
+        document.getElementById('modalImage').src = item.image;
+        document.getElementById('modalName').textContent = item.name;
+        document.getElementById('modalCategory').textContent = item.categoryName;
+        document.getElementById('modalPrice').textContent = item.price;
+        document.getElementById('modalDescription').textContent = item.description;
+
+        document.getElementById('itemModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close Modal
+    function closeModal() {
+        document.getElementById('itemModal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
+    });
+</script>
+
+</body>
+
+</html>
+</body>
+
+</html>
